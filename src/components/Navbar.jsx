@@ -7,7 +7,6 @@ const navLinks = [
   { name: "PM-JAY Operations", path: "/pm-jay-operations" },
   { name: "TPA & Insurance", path: "/tpa-operations" },
   { name: "Services", path: "/services" },
-  { name: "Contact", path: "/contact" },
 ];
 
 export default function Navbar() {
