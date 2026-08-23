@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -17,12 +18,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
-            {/* TODO: replace with actual logo image */}
-            <div className="w-9 h-9 rounded-full bg-navy flex items-center justify-center text-white font-bold text-sm">
-              MD
-            </div>
+            <img src={logo} alt="MD Tech Advisor" className="h-11 w-11 rounded-full object-contain" />
             <span className="font-bold text-navy text-lg leading-tight">
-              MD Tech <span className="text-accent">Advisor</span>
+               MD Tech <span className="text-accent">Advisor</span>
             </span>
           </Link>
 
