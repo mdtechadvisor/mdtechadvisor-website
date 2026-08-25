@@ -46,30 +46,110 @@ const trustBadges = [
 
 export default function Contact() {
   const [form, setForm] = useState(initialForm);
+  const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+  const [apiError, setApiError] = useState("");
   const [openFaq, setOpenFaq] = useState(null);
+
+  function validateField(name, value) {
+    let errorMsg = "";
+    if (name === "hospitalName" && !value.trim()) {
+      errorMsg = "Hospital name is required.";
+    } else if (name === "contactPerson" && !value.trim()) {
+      errorMsg = "Contact person name is required.";
+    } else if (name === "city" && !value.trim()) {
+      errorMsg = "City is required.";
+    } else if (name === "serviceRequirement" && !value) {
+      errorMsg = "Please select a service requirement.";
+    } else if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!value.trim()) {
+        errorMsg = "Email address is required.";
+      } else if (!emailRegex.test(value.trim())) {
+        errorMsg = "Please enter a valid email address, e.g. name@example.com";
+      }
+    } else if (name === "phone") {
+      const cleanPhone = value.replace(/\D/g, "");
+      if (!value.trim()) {
+        errorMsg = "Phone number is required.";
+      } else if (cleanPhone.length !== 10 || !/^[6-9]/.test(cleanPhone)) {
+        errorMsg = "Please enter a valid 10-digit mobile number.";
+      }
+    }
+    return errorMsg;
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+
+    if (apiError) setApiError("");
+
+    if (errors[name]) {
+      const errorMsg = validateField(name, value);
+      setErrors((prev) => ({ ...prev, [name]: errorMsg }));
+    }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function validateAll() {
+    const newErrors = {};
+    const requiredFields = ["hospitalName", "contactPerson", "city", "phone", "email", "serviceRequirement"];
 
-    // Honeypot check — if this hidden field has a value, silently drop the submission
+    requiredFields.forEach((field) => {
+      const err = validateField(field, form[field]);
+      if (err) newErrors[field] = err;
+    });
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setApiError("");
+
+    // Honeypot check — silently drop bots
     if (form.website) {
       setStatus("success");
       return;
     }
 
-    // TODO: replace with real submission to backend (Google Sheets + email alert)
-    // once the Express API is wired up in Day 4-5 of the build.
+    // Frontend validation check
+    if (!validateAll()) {
+      return;
+    }
+
     setStatus("submitting");
-    setTimeout(() => {
+
+    try {
+      const res = await fetch("/api/submit-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        // Non-JSON response (e.g. 500 server HTML error)
+      }
+
+      if (!res.ok || !data.success) {
+        const serverMessage = data.message || "We couldn't submit your inquiry right now. Please try again in a moment or contact us directly via WhatsApp or phone.";
+        setApiError(serverMessage);
+        setStatus("error");
+        return;
+      }
+
       setStatus("success");
       setForm(initialForm);
-    }, 800);
+      setErrors({});
+    } catch (error) {
+      console.error("Form submission failed:", error.message);
+      setApiError("We couldn't submit your inquiry right now. Please try again in a moment or contact us directly via WhatsApp or phone.");
+      setStatus("error");
+    }
   }
 
   return (
@@ -113,8 +193,8 @@ export default function Contact() {
                   Please fill in the details below and we will connect with you.
                 </p>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  {/* Honeypot field — hidden from real users via CSS, bots tend to fill it */}
+                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                  {/* Honeypot field */}
                   <input
                     type="text"
                     name="website"
@@ -127,18 +207,66 @@ export default function Contact() {
                   />
 
                   <div className="grid sm:grid-cols-2 gap-5">
-                    <Field label="Hospital Name" name="hospitalName" value={form.hospitalName} onChange={handleChange} required />
-                    <Field label="Contact Person" name="contactPerson" value={form.contactPerson} onChange={handleChange} required />
+                    <Field
+                      label="Hospital Name"
+                      name="hospitalName"
+                      value={form.hospitalName}
+                      onChange={handleChange}
+                      placeholder="e.g. City Care Hospital"
+                      error={errors.hospitalName}
+                      required
+                    />
+                    <Field
+                      label="Contact Person"
+                      name="contactPerson"
+                      value={form.contactPerson}
+                      onChange={handleChange}
+                      placeholder="e.g. Dr. A. K. Sharma"
+                      error={errors.contactPerson}
+                      required
+                    />
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-5">
-                    <Field label="Designation" name="designation" value={form.designation} onChange={handleChange} />
-                    <Field label="City" name="city" value={form.city} onChange={handleChange} required />
+                    <Field
+                      label="Designation"
+                      name="designation"
+                      value={form.designation}
+                      onChange={handleChange}
+                      placeholder="e.g. Medical Superintendent / Owner"
+                    />
+                    <Field
+                      label="City"
+                      name="city"
+                      value={form.city}
+                      onChange={handleChange}
+                      placeholder="e.g. Lucknow"
+                      error={errors.city}
+                      required
+                    />
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-5">
-                    <Field label="Phone Number" name="phone" type="tel" value={form.phone} onChange={handleChange} required />
-                    <Field label="Email" name="email" type="email" value={form.email} onChange={handleChange} required />
+                    <Field
+                      label="Phone Number"
+                      name="phone"
+                      type="tel"
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="10-digit mobile number"
+                      error={errors.phone}
+                      required
+                    />
+                    <Field
+                      label="Email"
+                      name="email"
+                      type="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="name@example.com"
+                      error={errors.email}
+                      required
+                    />
                   </div>
 
                   <div>
@@ -149,14 +277,20 @@ export default function Contact() {
                       name="serviceRequirement"
                       value={form.serviceRequirement}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent"
+                      className={`w-full px-4 py-2.5 rounded-md border text-navy focus:outline-none transition-colors ${
+                        errors.serviceRequirement
+                          ? "border-red-500 focus:ring-2 focus:ring-red-200 focus:border-red-500"
+                          : "border-slate-300 focus:ring-2 focus:ring-accent/40 focus:border-accent"
+                      }`}
                     >
                       <option value="">Select an option</option>
                       <option value="PM-JAY">PM-JAY Operations</option>
                       <option value="TPA">TPA / Health Insurance</option>
                       <option value="Both">Both</option>
                     </select>
+                    {errors.serviceRequirement && (
+                      <p className="text-xs text-red-600 mt-1.5">{errors.serviceRequirement}</p>
+                    )}
                   </div>
 
                   <div>
@@ -170,6 +304,13 @@ export default function Contact() {
                       placeholder="Tell us a bit about your hospital's current claims process..."
                     />
                   </div>
+
+                  {/* Single Clean API Error Banner */}
+                  {status === "error" && apiError && (
+                    <div className="p-3.5 bg-red-50 border border-red-200 rounded-md">
+                      <p className="text-sm text-red-600 font-medium">{apiError}</p>
+                    </div>
+                  )}
 
                   <button
                     type="submit"
@@ -185,7 +326,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* FAQ — now full-width, below the hero/form area (moved out of sidebar) */}
+      {/* FAQ Section */}
       <section className="py-16 md:py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-navy mb-8 text-center">
@@ -221,8 +362,8 @@ function ThankYouPanel() {
       </div>
       <h3 className="text-2xl md:text-3xl font-bold text-navy mb-1">Thank You!</h3>
       <p className="text-accent font-semibold mb-3">Your inquiry has been received.</p>
-      <p className="text-slate-600 max-w-sm mx-auto">
-        Our team will review your requirements and get in touch with you shortly.
+      <p className="text-slate-600 max-w-md mx-auto">
+        Thank you for contacting MD Tech Advisor. We have received your inquiry and will get back to you shortly.
       </p>
 
       <div className="mt-8 pt-8 border-t border-slate-200">
@@ -274,7 +415,7 @@ function ThankYouPanel() {
   );
 }
 
-function Field({ label, name, value, onChange, type = "text", required = false }) {
+function Field({ label, name, value, onChange, type = "text", required = false, placeholder = "", error = "" }) {
   return (
     <div>
       <label className="block text-sm font-medium text-navy mb-1.5">
@@ -285,9 +426,14 @@ function Field({ label, name, value, onChange, type = "text", required = false }
         name={name}
         value={value}
         onChange={onChange}
-        required={required}
-        className="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent"
+        placeholder={placeholder}
+        className={`w-full px-4 py-2.5 rounded-md border text-navy transition-colors focus:outline-none ${
+          error
+            ? "border-red-500 focus:ring-2 focus:ring-red-200 focus:border-red-500"
+            : "border-slate-300 focus:ring-2 focus:ring-accent/40 focus:border-accent"
+        }`}
       />
+      {error && <p className="text-xs text-red-600 mt-1.5">{error}</p>}
     </div>
   );
 }
