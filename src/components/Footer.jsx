@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -8,14 +9,16 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-navy font-bold text-xs">
-                MD
-              </div>
+            <Link to="/" className="flex items-center gap-2 mb-3 w-fit">
+              <img
+                src={logo}
+                alt="MD Tech Advisor"
+                className="h-9 w-9 rounded-full object-contain"
+              />
               <span className="font-bold text-white">
                 MD Tech <span className="text-accent">Advisor</span>
               </span>
-            </div>
+            </Link>
             <p className="text-sm text-slate-400">
               We Manage Operations. You Focus on Care.
             </p>
@@ -34,8 +37,8 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm mb-3">Contact</h4>
             <ul className="space-y-2 text-sm text-slate-400">
-              <li>operational@mdtechadvisor.in</li>
-              <li>+91 91403 45678</li>
+              <li>operations@mdtechadvisor.in</li>
+              <li>+91 9250467388</li>
               <li>www.mdtechadvisor.in</li>
             </ul>
           </div>
