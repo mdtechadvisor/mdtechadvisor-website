@@ -1,5 +1,5 @@
 // TODO: confirm the WhatsApp business number before launch
-const WHATSAPP_NUMBER = "919140345678";
+const WHATSAPP_NUMBER = "919250467388";
 const DEFAULT_MESSAGE = "Hi, I'd like to know more about MD Tech Advisor's services.";
 
 export default function WhatsAppButton() {
