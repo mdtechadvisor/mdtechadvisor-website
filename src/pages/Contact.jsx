@@ -372,7 +372,7 @@ function ThankYouPanel() {
 
         <div className="grid sm:grid-cols-3 gap-3">
           <a
-            href="https://wa.me/919140345678"
+            href="https://wa.me/919250467388"
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col items-center gap-2 px-4 py-5 rounded-xl border border-accent/40 hover:bg-accent/5 transition-colors"
@@ -382,12 +382,12 @@ function ThankYouPanel() {
             <span className="text-xs text-slate-500">Chat with us</span>
           </a>
           <a
-            href="tel:+919140345678"
+            href="tel:+919250467388"
             className="flex flex-col items-center gap-2 px-4 py-5 rounded-xl border border-navy/30 hover:bg-navy/5 transition-colors"
           >
             <span className="text-2xl">📞</span>
             <span className="font-medium text-navy text-sm">Call Us</span>
-            <span className="text-xs text-slate-500">+91 91403 45678</span>
+            <span className="text-xs text-slate-500">+91 9250467388</span>
           </a>
           <a
             href="mailto:operational@mdtechadvisor.in"
