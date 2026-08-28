@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Seo from "../components/Seo";
 
 const initialForm = {
   hospitalName: "",
@@ -154,6 +155,10 @@ export default function Contact() {
 
   return (
     <div>
+      <Seo
+        title="Contact Us"
+        description="Contact MD Tech Advisor for PM-JAY and TPA operational consulting."
+      />
       <section className="bg-surface-muted">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
           {status === "success" ? (
@@ -390,12 +395,12 @@ function ThankYouPanel() {
             <span className="text-xs text-slate-500">+91 9250467388</span>
           </a>
           <a
-            href="mailto:operational@mdtechadvisor.in"
+            href="mailto:operations@mdtechadvisor.in"
             className="flex flex-col items-center gap-2 px-4 py-5 rounded-xl border border-slate-300 hover:bg-surface-muted transition-colors"
           >
             <span className="text-2xl">✉️</span>
             <span className="font-medium text-navy text-sm">Email Us</span>
-            <span className="text-xs text-slate-500 break-all">operational@mdtechadvisor.in</span>
+            <span className="text-xs text-slate-500 break-all">operations@mdtechadvisor.in</span>
           </a>
         </div>
       </div>

@@ -4,6 +4,7 @@ import WorkflowSteps from "../components/WorkflowSteps";
 import ChallengeSupport from "../components/ChallengeSupport";
 import OutcomesList from "../components/OutcomesList";
 import ServiceCTA from "../components/ServiceCTA";
+import Seo from "../components/Seo";
 
 const stripItems = [
   { title: "Pre-Authorization", desc: "Pre-auth documentation and coordination support" },
@@ -50,6 +51,7 @@ const outcomes = [
 export default function TPAOperations() {
   return (
     <div>
+      <Seo title="Health Insurance & TPA Operations" description="End-to-end TPA and private health insurance claim processing, discharge enhancement, and deduction prevention." />
       <ServiceHero
         eyebrow="Health Insurance & TPA Operations"
         heading="End-to-End Health Insurance & TPA Operations Support"

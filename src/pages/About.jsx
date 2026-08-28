@@ -1,8 +1,11 @@
 import PageHero from "../components/PageHero";
+import Seo from "../components/Seo";
 
 export default function About() {
   return (
     <div>
+      <Seo title="About Us" description="Learn about MD Tech Advisor — India's trusted hospital operations partner for PM-JAY & TPA claim management." />
+
       <PageHero
         eyebrow="About Us"
         title="Your Trusted Partner for Healthcare Operations"

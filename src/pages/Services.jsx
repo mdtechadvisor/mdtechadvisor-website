@@ -1,3 +1,6 @@
+import Seo from "../components/Seo";
+
+
 function ServicesHeroIllustration() {
   return (
     <svg
@@ -208,6 +211,7 @@ const services = [
 export default function Services() {
   return (
     <div>
+      <Seo title="Our Services" description="Explore 6 core hospital claim operational services by MD Tech Advisor — pre-auth, STG compliance, TMS management." />
       {/* Premium Navy Hero Section with Clean Healthcare Illustration */}
       <section className="bg-navy text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-16">

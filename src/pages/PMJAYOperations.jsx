@@ -4,6 +4,8 @@ import WorkflowSteps from "../components/WorkflowSteps";
 import ChallengeSupport from "../components/ChallengeSupport";
 import OutcomesList from "../components/OutcomesList";
 import ServiceCTA from "../components/ServiceCTA";
+import Seo from "../components/Seo";
+
 
 const stripItems = [
   { title: "Pre-Authorization", desc: "Package identification & pre-auth support" },
@@ -50,6 +52,7 @@ const outcomes = [
 export default function PMJAYOperations() {
   return (
     <div>
+      <Seo title="PM-JAY Operations Support" description="Dedicated Ayushman Bharat PM-JAY claim management, pre-auth, STG compliance, TMS management and query resolution." />
       <ServiceHero
         eyebrow="Ayushman Bharat PM-JAY"
         heading="End-to-End PM-JAY Transaction Management Support"

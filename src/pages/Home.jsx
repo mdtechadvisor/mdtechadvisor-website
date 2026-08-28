@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import heroHospital from "../assets/hero-hospital.jpeg";
+import Seo from "../components/Seo";
 
 const services = [
   {
@@ -41,6 +42,7 @@ const processSteps = [
 export default function Home() {
   return (
     <div>
+      <Seo title="Home" description="MD Tech Advisor helps hospitals manage Ayushman Bharat PM-JAY and TPA claims operations." />
 
       {/* ================= HERO ================= */}
       <section className="relative min-h-[620px] md:min-h-[680px] overflow-hidden text-white">
@@ -133,7 +135,8 @@ export default function Home() {
             {/* PM-JAY */}
             <Link
               to="/pm-jay-operations"
-              className="group bg-white border border-slate-200 rounded-l-2xl md:rounded-l-2xl md:rounded-r-none rounded-2xl p-7 md:p-8 hover:shadow-xl transition-all duration-300"
+              className="group bg-white border border-slate-200 rounded-l-2xl md:rounded-l-2xl md:rounded-r-none rounded-2xl p-7 md:p-8 
+hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center gap-6">
 
@@ -167,7 +170,8 @@ export default function Home() {
             {/* TPA */}
             <Link
               to="/tpa-operations"
-              className="group bg-white border border-slate-200 rounded-r-2xl md:rounded-r-2xl md:rounded-l-none rounded-2xl p-7 md:p-8 hover:shadow-xl transition-all duration-300"
+              className="group bg-white border border-slate-200 rounded-r-2xl md:rounded-r-2xl md:rounded-l-none rounded-2xl p-7 md:p-8 
+hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center gap-6">
 
@@ -265,7 +269,7 @@ export default function Home() {
 
                 <div className="flex items-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-xl shadow-sm">
 
-                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-navy font-bold text-sm">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-navy font-bold text-sm">      
                     {index + 1}
                   </div>
 
