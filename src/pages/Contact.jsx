@@ -377,7 +377,7 @@ function ThankYouPanel() {
 
         <div className="grid sm:grid-cols-3 gap-3">
           <a
-            href="https://wa.me/919250467388"
+            href="https://wa.me/919250467388?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20MD%20Tech%20Advisor%27s%20services."
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col items-center gap-2 px-4 py-5 rounded-xl border border-accent/40 hover:bg-accent/5 transition-colors"
