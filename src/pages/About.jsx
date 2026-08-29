@@ -1,5 +1,15 @@
 import PageHero from "../components/PageHero";
 import Seo from "../components/Seo";
+import TeamSection from "../components/TeamSection";
+
+// Team photos + naam/designation 
+// yahan import karo aur niche array mein add karo. Tab tak array empty hai,
+// TeamSection khud kuch render nahi karega (koi crash/khaali box nahi dikhega).
+// import teamPhoto1 from "../assets/team/aditi-sharma.jpg";
+
+const teamMembers = [
+  
+];
 
 export default function About() {
   return (
@@ -45,6 +55,11 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      <TeamSection
+        members={teamMembers}
+        subtext="The people behind MD Tech Advisor's hospital operations support."
+      />
     </div>
   );
 }
