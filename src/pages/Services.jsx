@@ -1,5 +1,5 @@
 import Seo from "../components/Seo";
-
+import ServiceCTA from "../components/ServiceCTA";
 
 function ServicesHeroIllustration() {
   return (
@@ -267,6 +267,12 @@ export default function Services() {
           })}
         </div>
       </section>
+
+      <ServiceCTA
+        heading="Explore How We Can Support Your Hospital"
+        text="Have questions about any of these services? Let's discuss your hospital's specific claims and operational requirements."
+        buttonLabel="Get in Touch"
+      />
     </div>
   );
 }
